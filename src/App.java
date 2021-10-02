@@ -8,14 +8,11 @@ import java.math.BigInteger;
 
 public class App {
     public static void main(String[] args) throws Exception {
-        System.out.println("Hello, World!");
 
         //teste
         //System.out.println(hexToBin("0x00430820"));
 
         BinToAs teste = new BinToAs(hexToBin("0xac410064"));
-
-        System.out.println(teste.IdentifyOpcode(hexToBin("0xac410064")));
 
 
         Scanner ler = new Scanner(System.in);
@@ -29,7 +26,7 @@ public class App {
       BufferedReader lerArq = new BufferedReader(entrada);
 
       //cria um arquivo de saída 
-      FileWriter saida = new FileWriter("C:/Users/mathe/ProjetoMips/src/saida.txt");
+      FileWriter saida = new FileWriter("saida.txt");
       PrintWriter gravarArq = new PrintWriter(saida);
 
       String linha = lerArq.readLine(); 

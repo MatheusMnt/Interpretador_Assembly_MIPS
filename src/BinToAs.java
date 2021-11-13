@@ -3,6 +3,8 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.omg.CORBA.StringHolder;
+
 //Essa classe vai converter de binário para Assembly
 public class BinToAs {
 	public String bin;
@@ -79,8 +81,10 @@ public class BinToAs {
 
 		//valores de teste 
 		//APAGAR DEPOIS 
-		memoria.add(110, "3");
-		memoria.add(111, "4");
+		//memoria.add(110, "00000000000000000000000000000011");
+		//memoria.add(111, "00000000000000000000000000000100");
+		 this.setOnMem(110, "00000000000000000000000000000011");
+		 this.setOnMem(114, "00000000000000000000000000000100");
 		
 	}
 
@@ -860,6 +864,27 @@ public class BinToAs {
 	return regsFormat;
 	}
 
+	// a função recebe um endereço e uma string em binario e armazena na memoria
+	// como a memoria foi implementada em litle endian, o bit mais significativvo no fim
+	//alem disso, como a memoria so tem 8 bits por endereço, a função separa os 32 bits de entrada 
+	public void setOnMem(int endereco, String bin){
+		this.memoria.add(endereco + 3, bin.substring(0, 8)); // 0 a 7
+		this.memoria.add(endereco + 2, bin.substring(8, 16));// 8 a 15 
+		this.memoria.add(endereco + 1, bin.substring(16, 24));//16 a 24
+		this.memoria.add(endereco, bin.substring(24, 32)); // 25 a 32 
+	}
+
+	//a seguinte função pega o valor de determinado endereço, e transforma em inteiro para as determinadas operações;
+	public int getFromMem(int endereco){
+		String concat = "";
+		for (int i = 3; i >= 0; i--){
+			concat = concat + this.memoria.get(endereco + i);
+		}
+		int retorno = Integer.parseInt(concat, 2);
+		return retorno;
+	}
+
+
 	//imprime a imagem da memória 
 	// o codigo so imprime os registradores com valores diferentes de "00000000"
 	public String imprimeMEM(){
@@ -867,11 +892,11 @@ public class BinToAs {
 		String memFormat = "\nMEM[";
 		for (int i = 0; i < memoria.size(); i++){ //avalia os n elementos do ArrayList Memoria 
 			if (!memoria.get(i).equals("00000000")){
-				memFormat = memFormat + i + ":" + memoria.get(i) + "; "; // adiciona a string a formatação  endereço:palavra
+				int formato = Integer.parseInt(memoria.get(i), 2);
+				memFormat = memFormat + i + ":" + formato + "; "; // adiciona a string a formatação  endereço:palavra
 			}
 		}
 		memFormat = memFormat.substring(0, memFormat.length() - 2) + "]"; // quando sair do loop, o ultimo elemento tem um formatação doferente 
-
 	return memFormat;
 	}
 

@@ -3,6 +3,7 @@ import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.ArrayList;
 import java.util.Scanner;
 import java.math.BigInteger;
 
@@ -22,7 +23,8 @@ public class App {
         // A casse BinToAs recebe um número em binário e retorna seu correspondente em
         // Assembly
         int[] reg = new int[32];
-        BinToAs assembly = new BinToAs(reg); 
+        ArrayList <String> mem = new ArrayList<String>(1024);
+        BinToAs assembly = new BinToAs(reg, mem); 
         String nome = "entrada.txt"; //arquivo de entreda com os números em octal
 
         try {
@@ -33,6 +35,7 @@ public class App {
             // cria um arquivo de saída
             FileWriter saida = new FileWriter("saida.txt");
             PrintWriter gravarArq = new PrintWriter(saida);
+            
 
             String linha = lerArq.readLine();
             // lê a primeira linha
